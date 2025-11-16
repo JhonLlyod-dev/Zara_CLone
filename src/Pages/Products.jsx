@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Bookmark } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { allProducts } from "../assets/Data";
 export default function Products() {
-  const count = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];
 
-
+  const maincategory = ["WOMAN","MAN","KIDS","PERFUMES"];
   const categoriesMen = ["T-SHIRTS", "SHIRTS", "POLO SHIRTS", "TROUSERS", "PANTS", "JACKETS | COATS", "HOODIES | SWEATSHIRTS", "SHOES | BAGS", "ACCESSORIES | PERFUMES"];
   const categoriesWoman = ["BEST SELLERS", "LEATHER", "JACKETS | COATS", "PUFFERS | QUILTED", "BLAZERS", "DRESSES", "SHOES | BAGS", "ACCESSORIES | PERFUMES"];
+  const categoriesKids = ["0-18 MONTHS | BABY","1-6 YEARS | GIRL","1-6 YEARS | BOY","7-12 YEARS | GIRL","7-12 YEARS | BOY","13-18 YEARS | GIRL","13-18 YEARS | BOY"];
 
   const [selectedCategory, setSelectedCategory] = useState("VIEW ALL");
+  const [selectedSub, setSelectedSub] = useState("WOMAN");
   return (
     <div className="flex-center flex-col gap-16 w-full mt-22">
 
@@ -17,9 +20,30 @@ export default function Products() {
         <div className="flex-center flex-row font-thin text-xs gap-2">
           <span onClick={() => setSelectedCategory("VIEW ALL")} className={`tab p-0.5 px-2 ${selectedCategory === "VIEW ALL" ? "bg-black text-white" : "bg-white/90 text-black"}`}>VIEW ALL</span>
           {
-            categoriesWoman.map((category, index) => (
+            maincategory.map((category, index) => (
               <span key={index} onClick={() => setSelectedCategory(category)}
                className={`tab p-0.5 px-2 ${selectedCategory === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            ))
+          }
+        </div>
+
+        <div className="mt-4 flex-center flex-row font-thin text-xs gap-2">
+          {selectedCategory === "MAN" &&
+            categoriesMen.map((category, index) => (
+              <span key={index} onClick={() => setSelectedSub(category)}
+               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            ))
+          }
+          {selectedCategory === "WOMAN" &&
+            categoriesWoman.map((category, index) => (
+              <span key={index} onClick={() => setSelectedSub(category)}
+               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            ))
+          }
+          {selectedCategory === "KIDS" &&
+            categoriesKids.map((category, index) => (
+              <span key={index} onClick={() => setSelectedSub(category)}
+               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
             ))
           }
         </div>
@@ -28,8 +52,8 @@ export default function Products() {
 
           <div className="w-full grid grid-cols-5 gap-8 px-5 py-10 ">
             {
-              count.map((item, index) => (
-                <Product key={index} />
+              allProducts.map((item, index) => (
+                <Product key={index} item={item} />
               ))
             }
           </div>
@@ -44,10 +68,14 @@ export default function Products() {
   )
 }
 
-function Product({ prod }) {
+export function Product({ index,item }) {
+
+  const navigate = useNavigate();
+
   return (
     <div
-      key={prod?.id}
+      key={index}
+      onClick={() => navigate(`/view/${item?.id}`)}
       className="relative flex flex-col gap-3 hover:shadow-lg transition-all cursor-pointer group"
     >
       {/* Image Wrapper */}
@@ -55,8 +83,8 @@ function Product({ prod }) {
 
         {/* Image */}
         <img
-          src="https://static.zara.net/assets/public/1f19/b239/29294f57968c/9d265e03d8b7/09188332401-p/09188332401p.jpg?ts=1761144566930&w=457"
-          alt={prod?.name}
+          src={item.photos[0]}
+          alt={"img"}
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"/>
 
         {/* Fade Overlay */}
@@ -66,13 +94,13 @@ function Product({ prod }) {
           opacity-100 transition-opacity duration-300 
           group-hover:opacity-0
         ">
-          <button className="absolute top-3 right-3 text-gray-600">
-            <Bookmark size={16} strokeWidth={1} />
-          </button>
 
-          <div className="absolute flex flex-col gap-1 bottom-2 left-4 text-sm text-white font-light ">
-            <h3 className="px-1 text-xs">ARAY MO DRESS asdas asd asd</h3>
-            <h3 className="border-b-[1px] px-1 pb-1 w-fit border-white">2,395.00 PHP</h3>
+          <div className=" cursor-pointer absolute flex items-start flex-col gap-1 bottom-2 left-4 text-sm text-white font-light ">
+            <h3 className="px-1 text-sm leading-tight  max-w-[80%] text-start">
+              {item.name}
+            </h3>
+
+            <h3 className="px-1 pb-1 tab font-zara text-xs">{item.price}</h3>
           </div>
         </div>
       </div>

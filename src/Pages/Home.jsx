@@ -88,9 +88,9 @@ export default function Home() {
 
           <div className="grid grid-cols-5 gap-4 px-4">
             {featured.map((item) => (
-              <div key={item.Title} className="cursor-pointer flex items-center flex-col gap-2">
-                <img src={item.Img} alt={item.Title} />
-                <h3 className="text-center font-light mt-4 px-4 tab">{item.Title}</h3>
+              <div key={item.id} onClick={() => navigate(`/view/${item.id}`)} className="cursor-pointer flex items-center flex-col gap-2">
+                <img src={item.photos[0]} alt={item.name} />
+                <h3 className="text-center font-light mt-4 px-4 tab">{item.name}</h3>
               </div>
             ))}
           </div>

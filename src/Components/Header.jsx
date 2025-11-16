@@ -25,6 +25,8 @@ export default function Header() {
 
   const navigate = useNavigate();
 
+  const [Searching, setSearch] = useState("");
+
 
   return (
     <div className="">
@@ -37,15 +39,15 @@ export default function Header() {
         <div className="flex-center gap-10 font-light text-sm">
           
           <div className="px-4 pr-2 py-1 border-b border-b-black flex-center gap-1">
-            <input type="text" placeholder="Search"  className=" w-full font-light outline-0"/>
-            <button className="cursor-pointer">
+            <input type="text" onChange={(e) => setSearch(e.target.value)} value={Searching} placeholder="Search"  className=" w-full font-light outline-0"/>
+            <button onClick={()=> navigate(`/products/All/${Searching}`)}  className="cursor-pointer">
               <Search size={16} strokeWidth={1} />
             </button>
           </div>
 
-          <button className="flex-center flex-row gap-2 tab p-0.5">GEORGE BUGWAK <UserRound  size={18} strokeWidth={1} /></button>
+          <button onClick={() => navigate("/account")} className="flex-center flex-row gap-2 tab p-0.5">GEORGE BUGWAK <UserRound  size={18} strokeWidth={1} /></button>
 
-          <button className="flex-center flex-row gap-2 tab p-0.5">SHOPPING BAG<Handbag size={16} strokeWidth={1}/></button>
+          <button onClick={()=> navigate("/cart")} className="flex-center flex-row gap-2 tab p-0.5">SHOPPING BAG<Handbag size={16} strokeWidth={1}/></button>
 
           <span onClick={()=> setSidebarOpen(true)} className="">
             <TextAlignJustify size={20} strokeWidth={1} />
@@ -57,6 +59,9 @@ export default function Header() {
 }
 
 function Sidebar({close}) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="fixed motion-preset-fade-lg z-20 top-0 bottom-0 right-0 left-0 bg-black/40 backdrop-blur-xs flex-center justify-end ">
       <div className="bg-white motion-preset-fade-lg motion-delay-200 w-2xl h-full">
@@ -71,12 +76,11 @@ function Sidebar({close}) {
         <div className="flex flex-col gap-3">
           <h2 className="font-zara">CATEGORIES</h2>
           <ul className="pl-2 flex items-start flex-col gap-3">
-            <li className="tab">WOMAN</li>
-            <li className="tab">MAN</li>
-            <li className="tab">KIDS</li>
-            <li className="tab">Home</li>
-            <li className="tab">50TH ANNIVERSARRY</li>
-            <li className="tab">PERFUMES</li>
+            <li onClick={()=>{close(); navigate('/products/WOMAN')}}  className="tab">WOMAN</li>
+            <li onClick={()=>{close(); navigate('/products/MAN')}} className="tab">MAN</li>
+            <li onClick={()=>{close(); navigate('/products/KIDS')}} className="tab">KIDS</li>
+            <li onClick={()=>{close(); navigate('/products/50TH')}} className="tab">50TH ANNIVERSARRY</li>
+            <li onClick={()=>{close(); navigate('/products/PERFUMES')}} className="tab">PERFUMES</li>
             <li className="font-medium tab">TRAVEL MODE</li>
           </ul>
         </div>
