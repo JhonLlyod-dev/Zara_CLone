@@ -95,7 +95,7 @@ export default function Home() {
             ))}
           </div>
 
-          <button onClick={()=> navigate("/products")} className="border font-light transition-all ease-in duration-100 border-white p-2 px-8 hover:bg-white hover:text-black">
+          <button onClick={()=> navigate("/products/all")} className="border font-light transition-all ease-in duration-100 border-white p-2 px-8 hover:bg-white hover:text-black">
             View More
           </button>
 

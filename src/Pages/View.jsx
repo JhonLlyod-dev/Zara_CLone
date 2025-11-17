@@ -29,7 +29,7 @@ export default function View() {
   const [count, setCount] = useState(1);
   return(
     <div className='relative  flex-center flex-col gap-16 w-full mt-22'>
-      <button onClick={() => navigate("/products")} className=' tab absolute top-4 left-8  text-black'>
+      <button onClick={() => navigate("/products/all")} className=' tab absolute top-4 left-8  text-black'>
         <ArrowLeft  size={25} strokeWidth={.5}/>
       </button>
 
@@ -126,7 +126,7 @@ export default function View() {
         </div>
         <div className='w-full flex-center'>
 
-          <button onClick={() => navigate("/products")} className='font-light text-sm text-gray-500 w-fit border-[.5px] transition border-gray-300 hover:bg-black hover:text-white px-6 p-3'>
+          <button onClick={() => navigate("/products/all")} className='font-light text-sm text-gray-500 w-fit border-[.5px] transition border-gray-300 hover:bg-black hover:text-white px-6 p-3'>
             FIND MORE
           </button>
 

@@ -1,6 +1,21 @@
 export const allProducts = [
   // MEN
   {
+    id: "thomas-1",
+    category: "men",
+    collection: "LIMITED EDITION",
+    name: "SHELBY SPECIAL",
+    price: "20,000.00 PHP",
+    photos: [
+      "https://i.pinimg.com/736x/cb/77/23/cb772310a6c4b9f8683094b760f41c87.jpg",
+      "https://i.pinimg.com/736x/f6/a8/a3/f6a8a3676449a605f940c8cfb57b20a7.jpg"
+    ],
+    productInfo: "Thomas Shelby Special from Birmingham. Crafted with fine british principles, and rum and whisky.",
+    materials: {
+      outerShell:"52% booker, 46% mob, 2% violence, 100% whiskey, 100% Shelby"
+    }
+  },
+  {
     id: "men-1",
     category: "men",
     name: "CONTRAST BOMBER JACKET",
