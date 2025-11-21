@@ -33,7 +33,6 @@ export default function Home() {
             ZW 2025
           </h1>
 
-          {/* Right Image */}
           <img
             src="https://static.zara.net/assets/public/660f/5817/80634118a385/496325b88a15/09487712800-1-p/09487712800-1-p.jpg?ts=1762857159791&w=857"
             alt="img2"
@@ -41,7 +40,6 @@ export default function Home() {
           />
         </div>
 
-        {/* ===================== PRODUCT DESCRIPTION 1 ===================== */}
         <h2 className="font-opti text-center text-white space-y-2">
           <span className="block text-3xl ">ZW COLLECTIONS</span>
           <span className="block text-xl opacity-90">
@@ -52,8 +50,7 @@ export default function Home() {
           </span>
         </h2>
 
-        {/* ===================== 3 IMAGE ROW ===================== */}
-        <div className="w-full flex-center gap-2 mt-22">
+        <div className="w-full grid grid-cols-3 gap-2 mt-22">
           <img
             src="https://static.zara.net/assets/public/19e5/e3cf/651c4037a86c/c8e443dda202/05919200700-p/05919200700-p.jpg?ts=1762857159805&w=555"
             alt=""
@@ -95,7 +92,7 @@ export default function Home() {
             ))}
           </div>
 
-          <button onClick={()=> navigate("/products/all")} className="border font-light transition-all ease-in duration-100 border-white p-2 px-8 hover:bg-white hover:text-black">
+          <button onClick={()=> navigate("/products/All#products")} className="border font-light transition-all ease-in duration-100 border-white p-2 px-8 hover:bg-white hover:text-black">
             View More
           </button>
 

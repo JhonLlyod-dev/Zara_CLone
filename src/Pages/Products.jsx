@@ -1,72 +1,173 @@
-import { useState } from "react";
-import { Bookmark } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate,useParams } from "react-router-dom";
 import { allProducts } from "../assets/Data";
+
 export default function Products() {
 
-  const maincategory = ["WOMAN","MAN","KIDS","PERFUMES"];
-  const categoriesMen = ["T-SHIRTS", "SHIRTS", "POLO SHIRTS", "TROUSERS", "PANTS", "JACKETS | COATS", "HOODIES | SWEATSHIRTS", "SHOES | BAGS", "ACCESSORIES | PERFUMES"];
-  const categoriesWoman = ["BEST SELLERS", "LEATHER", "JACKETS | COATS", "PUFFERS | QUILTED", "BLAZERS", "DRESSES", "SHOES | BAGS", "ACCESSORIES | PERFUMES"];
-  const categoriesKids = ["0-18 MONTHS | BABY","1-6 YEARS | GIRL","1-6 YEARS | BOY","7-12 YEARS | GIRL","7-12 YEARS | BOY","13-18 YEARS | GIRL","13-18 YEARS | BOY"];
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const elem = document.querySelector(hash);
+      if (elem) {
+        setTimeout(() => {
+          elem.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("VIEW ALL");
-  const [selectedSub, setSelectedSub] = useState("WOMAN");
+  const { categories, searches } = useParams();
+
+  const maincategory = ["WOMEN", "MEN", "KIDS", "PERFUMES"];
+
+  const categoriesMen = [
+    "T-SHIRTS", "SHIRTS", "POLO SHIRTS", "TROUSERS", "PANTS",
+    "JACKETS | COATS", "HOODIES | SWEATSHIRTS", "SHOES | BAGS",
+    "ACCESSORIES | PERFUMES"
+  ];
+
+  const categoriesWoman = [
+    "BEST SELLERS", "LEATHER", "JACKETS | COATS", "PUFFERS | QUILTED",
+    "BLAZERS", "DRESSES", "SHOES | BAGS", "ACCESSORIES | PERFUMES"
+  ];
+
+  const categoriesKids = [
+    "0-18 MONTHS | BABY", "1-6 YEARS | GIRL", "1-6 YEARS | BOY",
+    "7-12 YEARS | GIRL", "7-12 YEARS | BOY",
+    "13-18 YEARS | GIRL", "13-18 YEARS | BOY"
+  ];
+
+
+  const [search, setSearch] = useState(searches || "");
+  const [selectedCategory, setSelectedCategory] = useState(categories || "All");
+  const [selectedSub, setSelectedSub] = useState("");
+
+  useEffect(() => {
+
+      setSearch(searches);
+      setSelectedCategory(categories);
+      setSelectedSub(""); 
+
+      console.log(search  + " " + selectedCategory);
+
+  }, [searches || categories]);
+
+
+  const filteredProducts = allProducts
+ 
+    .filter((p) => {
+      if (!search) return true;
+
+      const text = search.toLowerCase();
+
+      const searchableContent = `
+        ${p.category || ""}
+        ${p.collection || ""}
+        ${p.name || ""}
+        ${p.productInfo || ""}
+        ${p.materials?.outerShell || ""}
+      `.toLowerCase();
+
+      return searchableContent.includes(text);
+    })
+  
+    .filter((p) => {
+      if (selectedCategory === "All") return true;
+      return p.category?.toUpperCase() === selectedCategory.toUpperCase();
+    });
+
+
   return (
-    <div className="flex-center flex-col gap-16 w-full mt-22">
+    <div  id="products" className="flex-center scroll-smooth flex-col gap-16 w-full mt-22">
 
-      <Womans/>
+      <Womans />
+
 
       <div className="flex flex-col items-start w-full px-20">
         <div className="flex-center flex-row font-thin text-xs gap-2">
-          <span onClick={() => setSelectedCategory("VIEW ALL")} className={`tab p-0.5 px-2 ${selectedCategory === "VIEW ALL" ? "bg-black text-white" : "bg-white/90 text-black"}`}>VIEW ALL</span>
-          {
-            maincategory.map((category, index) => (
-              <span key={index} onClick={() => setSelectedCategory(category)}
-               className={`tab p-0.5 px-2 ${selectedCategory === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
-            ))
-          }
+          <span
+            onClick={() => setSelectedCategory("All")}
+            className={`tab p-0.5 px-2 ${
+              selectedCategory === "All"
+                ? "bg-black text-white"
+                : "bg-white/90 text-black"
+            }`}
+          >
+            VIEW ALL
+          </span>
+
+          {maincategory.map((cat, index) => (
+            <span
+              key={index}
+              onClick={() => { setSelectedCategory(cat); setSelectedSub(""); }}
+              className={`tab p-0.5 px-2 ${
+                selectedCategory === cat
+                  ? "bg-black text-white"
+                  : "bg-white/90 text-black"
+              }`}
+            >
+              {cat.toUpperCase()}
+            </span>
+          ))}
         </div>
 
         <div className="mt-4 flex-center flex-row font-thin text-xs gap-2">
           {selectedCategory === "MAN" &&
-            categoriesMen.map((category, index) => (
-              <span key={index} onClick={() => setSelectedSub(category)}
-               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            categoriesMen.map((sub, index) => (
+              <span key={index}
+                onClick={() => setSelectedSub(sub)}
+                className={`tab p-0.5 px-2 ${
+                  selectedSub === sub ? "bg-black text-white" : "bg-white/90 text-black"
+                }`}
+              >
+                {sub}
+              </span>
             ))
           }
+
           {selectedCategory === "WOMAN" &&
-            categoriesWoman.map((category, index) => (
-              <span key={index} onClick={() => setSelectedSub(category)}
-               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            categoriesWoman.map((sub, index) => (
+              <span key={index}
+                onClick={() => setSelectedSub(sub)}
+                className={`tab p-0.5 px-2 ${
+                  selectedSub === sub ? "bg-black text-white" : "bg-white/90 text-black"
+                }`}
+              >
+                {sub}
+              </span>
             ))
           }
+
           {selectedCategory === "KIDS" &&
-            categoriesKids.map((category, index) => (
-              <span key={index} onClick={() => setSelectedSub(category)}
-               className={`tab p-0.5 px-2 ${selectedSub === category ? "bg-black text-white" : "bg-white/90 text-black"}`}>{category}</span>
+            categoriesKids.map((sub, index) => (
+              <span key={index}
+                onClick={() => setSelectedSub(sub)}
+                className={`tab p-0.5 px-2 ${
+                  selectedSub === sub ? "bg-black text-white" : "bg-white/90 text-black"
+                }`}
+              >
+                {sub}
+              </span>
             ))
           }
         </div>
 
-        <div>
+        <div className="w-full grid grid-cols-5 gap-8 px-5 py-10">
+          {filteredProducts.map((item, index) => (
+            <Product key={index} item={item} />
+          ))}
 
-          <div className="w-full grid grid-cols-5 gap-8 px-5 py-10 ">
-            {
-              allProducts.map((item, index) => (
-                <Product key={index} item={item} />
-              ))
-            }
-          </div>
-
+          {filteredProducts.length === 0 && (
+            <p className="text-center w-full py-20 text-gray-500">
+              No products found.
+            </p>
+          )}
         </div>
-
-        
-         
       </div>
-
     </div>
-  )
+  );
 }
+
 
 export function Product({ index,item }) {
 
